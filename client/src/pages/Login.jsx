@@ -11,6 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  useLoginUserMutation,
+  useRegisterUserMutation,
+} from "@/features/api/authApi";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 const Login = () => {
@@ -19,23 +24,42 @@ const Login = () => {
     email: " ",
     password: " ",
   });
-  const [loginInput, setLoginInput] = useState({email: " ", password: " " });
+  const [loginInput, setLoginInput] = useState({ email: " ", password: " " });
+
+  const [
+    registerUser,
+    {
+      data: registerData,
+      error: registerError,
+      isLoading: registerIsLoading,
+      isSuccess: registerIsSuccess,
+    },
+  ] = useRegisterUserMutation();
+  const [
+    loginUser,
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading,
+      isSuccess: loginIsSuccess,
+    },
+  ] = useLoginUserMutation();
   
+
   const changeInputHandler = (e, type) => {
-
-    const {name , value} = e.target;
+    const { name, value } = e.target;
     if (type === "signup") {
-        setSignupInput({...signupInput, [name]: value });
-  }else{
-    setLoginInput({...loginInput, [name]: value });
-  }
-  }
-  const handleRegistration = (type) => {
+      setSignupInput({ ...signupInput, [name]: value });
+    } else {
+      setLoginInput({ ...loginInput, [name]: value });
+    }
+  };
+  const handleRegistration = async (type) => {
     const inputData = type === "signup" ? signupInput : loginInput;
-     console.log(inputData);
-  }
+    const action = type === "signup" ? registerUser : loginUser;
+    await action(inputData);
+  };
 
-  
   return (
     <div className="flex items-center justify-center w-full">
       <Tabs defaultValue="account" className="w-[400px]">
@@ -55,7 +79,7 @@ const Login = () => {
               <div className="space-y-1">
                 <Label htmlFor="name">Name</Label>
                 <Input
-                onChange={(e)=> changeInputHandler(e, "signup")}
+                  onChange={(e) => changeInputHandler(e, "signup")}
                   type="text"
                   name="name"
                   value={signupInput.name}
@@ -70,23 +94,32 @@ const Login = () => {
                   name="email"
                   value={signupInput.email}
                   placeholder="Eg.radhe@gmail.com"
-                  onChange={(e)=> changeInputHandler(e, "signup")}
+                  onChange={(e) => changeInputHandler(e, "signup")}
                   required="true"
                 />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="username">Password</Label>
-                <Input 
-                type="password" 
-                name="password"
-                value={signupInput.password}
-                placeholder="Eg.xyz"  
-                onChange={(e)=> changeInputHandler(e, "signup")} 
-                required="true" />
+                <Input
+                  type="password"
+                  name="password"
+                  value={signupInput.password}
+                  placeholder="Eg.xyz"
+                  onChange={(e) => changeInputHandler(e, "signup")}
+                  required="true"
+                />
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={() => handleRegistration("signup")}>SignUp</Button>
+              <Button disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>
+                {
+                  registerIsLoading ? (
+                    <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin"/> Please wait...
+                    </>
+                  ): "Signup"
+                }
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -106,23 +139,32 @@ const Login = () => {
                   name="email"
                   value={loginInput.email}
                   placeholder="Eg. radhe@gmail.com"
-                  onChange={(e)=> changeInputHandler(e, "login")}
+                  onChange={(e) => changeInputHandler(e, "login")}
                   required="true"
                 />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="new"> Password</Label>
-                <Input 
-                type="password" 
-                name="password"
-                value={loginInput.password}
-                placeholder="Eg. xyz" 
-                onChange={(e)=> changeInputHandler(e, "login")}
-                required="true" />
+                <Input
+                  type="password"
+                  name="password"
+                  value={loginInput.password}
+                  placeholder="Eg. xyz"
+                  onChange={(e) => changeInputHandler(e, "login")}
+                  required="true"
+                />
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={() => handleRegistration("login")}>Login</Button>
+              <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")}>
+                {
+                  loginIsLoading ? (
+                    <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin"/> Please wait...
+                    </>
+                  ): "Login"
+                }
+                </Button>
             </CardFooter>
           </Card>
         </TabsContent>
