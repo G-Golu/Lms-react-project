@@ -1,8 +1,9 @@
-import User from "../models/user.model.js";
-import bycrypt from "../models/bycrypt.model.js";
+import { User } from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/generateToken.js";
 export const register = async (req, res ) => {
     try {
+        
         const { name, email, password} = req.body;// password 
         if (!name || !email || !password){
             return res.status(400).json({
@@ -17,7 +18,7 @@ export const register = async (req, res ) => {
                 message: "User already exist with this email."
             })
         }
-         const hashedPassword = await bycrypt.hash(password, 10);
+         const hashedPassword = await bcrypt.hash(password, 10);
         await User.create({
             name,
             email,
@@ -55,7 +56,7 @@ export const login = async (req, res ) => {
             })
         }
 
-        const isPasswordMatch = await bycrypt.compare(password, user.password);
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch){
 
             return res.status(401).json({

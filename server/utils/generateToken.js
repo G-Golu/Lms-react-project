@@ -7,6 +7,6 @@ export const generateToken = (req, res) => {
  }).json({
     success: true,
     message,
-    user
+    user,
  });
 };
