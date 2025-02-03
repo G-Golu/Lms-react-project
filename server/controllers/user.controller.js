@@ -24,7 +24,7 @@ export const register = async (req, res ) => {
             email,
             password: hashedPassword
         });
-        return res.status(200).json({
+        return res.status(201).json({
             success: true,
             message: "Account created successfully."
         });
@@ -50,28 +50,54 @@ export const login = async (req, res ) => {
 
         const user = await User.findOne({ email});
         if (!user){
-            return res.status(404).json({
+            return res.status(400).json({
                 success: false,
                 message: "Incorrect email or password."
-            })
+            });
         }
-
+///
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch){
 
-            return res.status(401).json({
+            return res.status(400).json({
                 success: false,
                 message: "Incorrect email or password."
             })
         }
            
-        generateToken(res,user, `Welcome back ${user.name}`);
+    //     generateToken(res,user, `Welcome back ${user.name}`);
 
-    } catch (error){
+    // } catch (error){
+    //     console.log(error);
+    //     return res.status(500).json({
+    //      success: false,
+    //      message: "Failed to Login"
+
+    
+//         })
+//     }
+// }
+
+
+        // ✅ Generate Token and send response
+        generateToken(res, user, `Welcome back ${user.name}`);
+        return res.status(200).json({
+            success: true,
+            message: "Login successful",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
+
+    } catch (error) {
         console.log(error);
         return res.status(500).json({
-         success: false,
-         message: "Failed to Login"
-        })
+            success: false,
+            message: "Failed to Login"
+        });
     }
 }
+
+

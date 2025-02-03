@@ -1,5 +1,6 @@
-// 4EVnwCLf9MsXSDpa
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
 import {
   Card,
   CardContent,
@@ -16,7 +17,7 @@ import {
   useRegisterUserMutation,
 } from "@/features/api/authApi";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Login = () => {
   const [signupInput, setSignupInput] = useState({
@@ -44,7 +45,6 @@ const Login = () => {
       isSuccess: loginIsSuccess,
     },
   ] = useLoginUserMutation();
-  
 
   const changeInputHandler = (e, type) => {
     const { name, value } = e.target;
@@ -59,6 +59,30 @@ const Login = () => {
     const action = type === "signup" ? registerUser : loginUser;
     await action(inputData);
   };
+
+  useEffect(() => {
+    if (registerIsSuccess && registerData){
+      toast.success(registerData.message || "Signup successfully")
+    }
+    if(registerError){
+      toast.error(registerError.data.message || "Signup Failed");
+    }
+    if (loginIsSuccess && loginData){
+      toast.success(loginData.message || "Login successfully")
+    }
+    if(loginError){
+      toast.error(loginError.data.message || "Login Failed");
+    }
+  }, [
+    loginIsLoading,
+    registerIsLoading,
+    loginData,
+    registerData,
+    loginError,
+    registerError,
+    // loginIsSuccess,
+    // registerIsSuccess
+  ]);
 
   return (
     <div className="flex items-center justify-center w-full">
@@ -111,14 +135,18 @@ const Login = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button disabled={registerIsLoading} onClick={() => handleRegistration("signup")}>
-                {
-                  registerIsLoading ? (
-                    <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin"/> Please wait...
-                    </>
-                  ): "Signup"
-                }
+              <Button
+                disabled={registerIsLoading}
+                onClick={() => handleRegistration("signup")}
+              >
+                {registerIsLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Please
+                    wait...
+                  </>
+                ) : (
+                  "Signup"
+                )}
               </Button>
             </CardFooter>
           </Card>
@@ -156,15 +184,19 @@ const Login = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button disabled={loginIsLoading} onClick={() => handleRegistration("login")}>
-                {
-                  loginIsLoading ? (
-                    <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin"/> Please wait...
-                    </>
-                  ): "Login"
-                }
-                </Button>
+              <Button
+                disabled={loginIsLoading}
+                onClick={() => handleRegistration("login")}
+              >
+                {loginIsLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Please
+                    wait...
+                  </>
+                ) : (
+                  "Login"
+                )}
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -174,3 +206,13 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
+
+
+
+
+
+
+
