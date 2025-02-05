@@ -1,19 +1,20 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel,  DropdownMenuSeparator } from './ui/dropdown-menu';
-import {  GraduationCap } from 'lucide-react'
+import {  GraduationCap, Menu } from 'lucide-react'
 import { Button } from './ui/button';
 import { DropdownMenuTrigger } from './ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import DarkMode from '@/DarkMode';
-import { Sheet , SheetContent,SheetDescription,SheetHeader,SheetTitle,  SheetTrigger, Label, SheetClose} from './ui/sheet';
+import { Sheet , SheetClose, SheetContent,SheetFooter,SheetHeader,SheetTitle,  SheetTrigger} from './ui/sheet';
+import { Separator } from '@radix-ui/react-dropdown-menu';
 const Navbar = () => {
-    const user = false;
-    return (
+    const user = true;
+     return (
         <div className='h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10'>
        {/* Desktop */}
        <div className='items-center justify-between hidden h-full gap-10 mx-auto max-w-7xl md:flex'>
        <div className='flex items-center gap-2'>
        <GraduationCap size={"30"}/>
-       <h1 className='hidden text-2xl font-extrabold md:block'>LMS Learning</h1>
+       <h1 className='hidden text-2xl font-extrabold md:block'>LMS_Learning</h1>
        </div>
        {/* User icons and dark mode icons */}
        <div className='flex items-center gap-8'>
@@ -60,8 +61,11 @@ const Navbar = () => {
        </div>
         </div>
         {/* Mobile device */}
+        <div className='flex items-center justify-between h-full px-4 md:hidden'>
+       <h1 className='text-2xl font-extrabold'>LMS_Learning</h1>
         <MobileNavbar/>
-        
+        </div>
+       
         </div>
     )
 }
@@ -69,51 +73,38 @@ const Navbar = () => {
 export default Navbar;
 
 
-const MobileNavbar = () => {
-    return (
-        Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-}; from "@/components/ui/sheet"
- 
-export function SheetDemo() {
+
+ const MobileNavbar = () => {
+  const role = "instructor"
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Open</Button>
+        <Button size='icon' className='bg-gray-200 rounded-full hover:bg-gray-200' variant="outline"><Menu/></Button>
       </SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
+      <SheetContent className="flex flex-col">
+        <SheetHeader className="flex flex-row items-center justify-between mt-2">
+          <SheetTitle>LMS_Learning</SheetTitle>
+         <DarkMode/> 
         </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid items-center grid-cols-4 gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input id="name" value="Pedro Duarte" className="col-span-3" />
-          </div>
-          <div className="grid items-center grid-cols-4 gap-4">
-            <Label htmlFor="username" className="text-right">
-              Username
-            </Label>
-            <Input id="username" value="@peduarte" className="col-span-3" />
-          </div>
-        </div>
-        <SheetFooter>
+        <Separator className='mr-2'/>
+       <nav className='flex-col space-y-4'>
+        <span>My Learning</span> 
+        <Separator className='mr-2'/>
+        <span>Edit Profile</span>
+        <p>Log Out</p>
+       </nav>
+       
+       {role === "instructor" && (
+          <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Dashboard</Button>
           </SheetClose>
         </SheetFooter>
-      </SheetContent>
-    </Sheet>
-    )
-}
+        )
+       }
+        </SheetContent>
+        </Sheet>     
+  );
+ };
+  
+    

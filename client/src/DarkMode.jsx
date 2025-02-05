@@ -4,6 +4,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 
 const DarkMode = () => {
+  const [setTheme] = ["dark", "light", "system"]/// this line self define
+
+  
   return (
     
       <DropdownMenu>
