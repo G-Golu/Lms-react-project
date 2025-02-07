@@ -12,17 +12,26 @@ import {
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Loader2 } from "lucide-react";
 import Course from "./Course";
+import { useLoadUserQuery } from "@/features/api/authApi";
 
 function Profile() {
-  const isLoading = false;
-  const enrolledCourses = [1];
+  const { data, isLoading } = useLoadUserQuery();
+  console.log(data);
+
+  if (isLoading) return <h1>Profile Loading...</h1>;
+
+  const { user } = data;
+
   return (
     <div className="max-w-4xl px-4 mx-auto my-24">
       <h1 className="text-2xl font-bold text-center md:text-left">PROFILE</h1>
       <div className="flex flex-col items-center gap-8 my-5 md:flex-row md:items-start">
         <div className="flex flex-col items-center">
           <Avatar className="w-24 h-24 mb-4 md:h-32 md:w-32">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage
+              src={user.photoUrl || "https://github.com/shadcn.png"}
+              alt="@shadcn"
+            />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </div>
@@ -32,7 +41,7 @@ function Profile() {
               Name:
               <span className="ml-2 font-normal text-gray-700 dark:text-gray-300">
                 {" "}
-                Golu Kumar Profile
+                {user.name}
               </span>
             </h1>
           </div>
@@ -41,7 +50,7 @@ function Profile() {
               Email:
               <span className="ml-2 font-normal text-gray-700 dark:text-gray-300">
                 {" "}
-                gk9881748@gmail.com
+                {user.email}
               </span>
             </h1>
           </div>
@@ -49,8 +58,9 @@ function Profile() {
             <h1 className="font-semibold text-gray-900 dark:text-gray-100">
               Role:
               <span className="ml-2 font-normal text-gray-700 dark:text-gray-300">
-                {" "}
-                INSTRUCTOR{" "}
+                
+                {user.role.toUpperCase()}
+              
               </span>
             </h1>
           </div>
@@ -101,10 +111,10 @@ function Profile() {
       <div>
         <h1 className="text-lg font-medium">Courses you`re enrolled in </h1>
         <div className="grid grid-cols-1 gap-4 my-5 sm:grid-cols-2 md:grid-cols-3">
-          {enrolledCourses.length === 0 ? (
+          {user.enrolledCourses.length === 0 ? (
             <h1>You haven`t enrolled yet</h1>
           ) : (
-            enrolledCourses.map((course, index) => <Course key={index} />)
+            user.enrolledCourses.map((course) => <Course course={course} key={course._id} />)
           )}
         </div>
       </div>
