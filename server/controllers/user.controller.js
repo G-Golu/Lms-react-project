@@ -140,7 +140,13 @@ export const logout = async (_, res) => {
       const photoUrl = cloudResponse.secure_url;
 
        const updatedData = {name, photoUrl}
-       const updatedUser = await User.findByIdAndUpdate(userId, updatedData , {new: true})
+       const updatedUser = await User.findByIdAndUpdate(userId, updatedData , {new: true}).select("-password");
+     
+             return res.status(200).json({
+            success: true,
+            user: updatedUser,
+            message: "Profile updated successfully."
+             });
 
     } catch (error) {
         console.log(error);

@@ -12,16 +12,52 @@ import {
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Loader2 } from "lucide-react";
 import Course from "./Course";
-import { useLoadUserQuery } from "@/features/api/authApi";
+import {
+  useLoadUserQuery,
+  useUpdateUserMutation,
+} from "@/features/api/authApi";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
-function Profile() {
+ function Profile() {
+  const [name, setName] = useState(" ");
+  
+  const [profilePhoto, setProfilePhoto] = useState(" ");
+
   const { data, isLoading } = useLoadUserQuery();
-  console.log(data);
+  //console.log(data);
+  const [
+    updateUser,
+    { data: updateUserData, isLoading: updateUserIsloading, isError, error , isSuccess },
+  ] = useUpdateUserMutation();
+
+  const onChangeHandler = (e) => {
+    const file = e.target.files?.[0];
+    if (file) setProfilePhoto(file);
+  };
 
   if (isLoading) return <h1>Profile Loading...</h1>;
 
   const { user } = data;
 
+  const updateUserHandler = async () => {
+    const formData = new FormData();
+    formData.append("name", name);
+    if (profilePhoto instanceof File) {
+      formData.append("profilePhoto", profilePhoto);
+    }
+    await updateUser(formData);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(updateUserData?.message || "Profile updated.");
+    }
+    if (isError) {
+      toast.error(error?.data?.message || "Failed to update profile.");
+    }
+  }, [isSuccess, isError, updateUserData, error]);
+  
   return (
     <div className="max-w-4xl px-4 mx-auto my-24">
       <h1 className="text-2xl font-bold text-center md:text-left">PROFILE</h1>
@@ -58,9 +94,7 @@ function Profile() {
             <h1 className="font-semibold text-gray-900 dark:text-gray-100">
               Role:
               <span className="ml-2 font-normal text-gray-700 dark:text-gray-300">
-                
                 {user.role.toUpperCase()}
-              
               </span>
             </h1>
           </div>
@@ -83,17 +117,24 @@ function Profile() {
                   <Label>Name</Label>
                   <input
                     type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="Name"
                     className="col-span-3"
                   />
                 </div>
                 <div className="grid items-center grid-cols-4 gap-4">
                   <Label>Profile Photo</Label>
-                  <input type="file" accept="image/*" className="col-span-3" />
+                  <input
+                    onChange={onChangeHandler}
+                    type="file"
+                    accept="image/*"
+                    className="col-span-3"
+                  />
                 </div>
               </div>
               <DialogFooter>
-                <Button disabled={isLoading}>
+                <Button disabled={isLoading} onClick={updateUserHandler}>
                   {isLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Please
@@ -114,7 +155,9 @@ function Profile() {
           {user.enrolledCourses.length === 0 ? (
             <h1>You haven`t enrolled yet</h1>
           ) : (
-            user.enrolledCourses.map((course) => <Course course={course} key={course._id} />)
+            user.enrolledCourses.map((course) => (
+              <Course course={course} key={course._id} />
+            ))
           )}
         </div>
       </div>
