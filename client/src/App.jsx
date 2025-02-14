@@ -1,3 +1,4 @@
+
 import Login from "./pages/Login";
 import "./App.css";
 //import Navbar from "./components/Navbar";
@@ -9,9 +10,10 @@ import { RouterProvider } from "react-router";
 import Courses from "./pages/student/Courses";
 import MyLearning from "./pages/student/Mylearning";
 import Profile from "./pages/student/Profile";
-import { Sidebar } from "lucide-react";
+import Sidebar  from "./pages/admin/Sidebar";
 import Dashboard from "./pages/admin/Dashboard";
 import CourseTable from "./pages/admin/course/CourseTable";
+import AddCourse from "./pages/admin/course/AddCourse";
 
 const appRouter = createBrowserRouter([
   {
@@ -22,7 +24,7 @@ const appRouter = createBrowserRouter([
         path: "/",
         element: (
           <>
-            <HeroSection />
+            <HeroSection/>
            <Courses/>
           </>
         ),
@@ -44,7 +46,7 @@ const appRouter = createBrowserRouter([
       // admin routes start from here
       {
         path: "admin",
-        element: <Sidebar />,
+        element: <Sidebar/>,
         children: [
           {
             path: "dashboard",
@@ -53,7 +55,11 @@ const appRouter = createBrowserRouter([
           {
             path: "course",
             element: <CourseTable/>,
-          }
+          },
+          {
+            path: "course/create",
+            element: <AddCourse/>,
+          },
         ]
       }
 
