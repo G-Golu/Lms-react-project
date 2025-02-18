@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useGetCreatorCourseQuery } from "@/features/api/courseApi"
 import { Edit } from "lucide-react"
 import { useNavigate } from "react-router-dom"
@@ -61,7 +61,7 @@ const CourseTable = () => {
   
   return (
     <div>
-      <Button onClick={()=> navigate(`create`)}>Create a new Course</Button>
+      <Button className="justify-between mt-8 gap-y-6" onClick={()=> navigate(`create`)}>Create a new Course</Button>
       <Table>
       <TableCaption>A list of your recent courses.</TableCaption>
       <TableHeader>

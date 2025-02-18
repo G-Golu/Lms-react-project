@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useState } from "react";
 
 
 const CourseTab = () => {
@@ -21,7 +22,12 @@ const CourseTab = () => {
         coursePrice: "",
         courseThumbnail: "",
     });
-  const isPublished = true;
+    const changeEventHandler = (e) => {
+      const {name, value} = e.target;
+      setInput({...input, [name]:value});
+    };
+    
+  const isPublished = false;
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
@@ -44,7 +50,9 @@ const CourseTab = () => {
                 <Label>Title</Label>
                 <Input
                 type="text"
-                name="Title"
+                name="courseTitle"
+                value={input.courseTitle}
+                onChange={ changeEventHandler}
                 placeholder="Ex. Fullstack developer"
                 />
             </div>
@@ -53,6 +61,8 @@ const CourseTab = () => {
                 <Input
                 type="text"
                 name="subtitle"
+                value={input.subTitle}
+                onChange={ changeEventHandler}
                 placeholder="Ex. Become a fullstack developer in to 3 months"
                 />
             </div>

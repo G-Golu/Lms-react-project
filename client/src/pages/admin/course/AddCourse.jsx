@@ -42,12 +42,12 @@ const AddCourse = () => {
   },[isSuccess, error])
 
   return (
-    <div className="flex-1 mx-10">
+    <div className="flex-1 mx-10 mt-8">
       <div className="mb-4">
-        <h1 className="text-xl font-bold">
+        <h1 className="space-y-2 text-xl font-bold">
           Lets add course, add some basic course details for your new course
         </h1>
-        <p className="text-sm">
+        <p className="mt-4 space-y-2 text-sm">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus,
           laborum!
         </p>
