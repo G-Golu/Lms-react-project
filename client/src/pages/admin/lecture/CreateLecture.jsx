@@ -9,7 +9,8 @@ import { Loader2 } from "lucide-react";
 import  { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import Lecture from "./Lecture";
+import Lecture from "./Lecture.jsx"
+
 
 const CreateLecture = () => {
   const [lectureTitle, setLectureTitle] = useState("");
@@ -44,7 +45,7 @@ const CreateLecture = () => {
   console.log(lectureData);
 
   return (
-    <div className="flex-1 mx-10">
+    <div className="flex-1 mx-10 mt-10">
       <div className="mb-4">
         <h1 className="text-xl font-bold">
           Let`s add lectures, add some basic details for your new lecture
@@ -75,7 +76,7 @@ const CreateLecture = () => {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Please wait...
+                Please wait
               </>
             ) : (
               "Create lecture"
