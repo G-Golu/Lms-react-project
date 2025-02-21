@@ -6,11 +6,10 @@ import {
   useGetCourseLectureQuery,
 } from "@/features/api/courseApi";
 import { Loader2 } from "lucide-react";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
-import Lecture from "./Lecture.jsx"
-
+import Lecture from "./Lecture";
 
 const CreateLecture = () => {
   const [lectureTitle, setLectureTitle] = useState("");
