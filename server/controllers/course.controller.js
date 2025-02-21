@@ -165,3 +165,15 @@ export const getCourseLecture = async (req,res) => {
         })
     }
 }
+
+// update lecture video
+export const editLecture = async (req, res) => {
+    try {
+        const {lectureTitle,videoInfo, isPreviewFree} = req.body;
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"Failed to get lectures"
+        })
+    }
+}

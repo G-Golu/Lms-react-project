@@ -39,7 +39,7 @@ const CreateLecture = () => {
     if (error) {
       toast.error(error.data.message);
     }
-  }, [isSuccess, error]);
+  }, [isSuccess, error]); 
 
   console.log(lectureData);
 
@@ -75,7 +75,7 @@ const CreateLecture = () => {
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Please wait
+                Please wait...
               </>
             ) : (
               "Create lecture"
