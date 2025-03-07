@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const DarkMode = () => {
   const [setTheme] = ["dark", "light", "system"]/// this line self defined
 
-  //Fdgfdfd
+  //Edit
   return (
     
       <DropdownMenu>
