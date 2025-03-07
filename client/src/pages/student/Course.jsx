@@ -15,7 +15,7 @@ function Course() {
       </div>
       <CardContent className="px-5 py-4 space-y-3">
         <h1 className="text-lg font-bold truncate hover:underline">
-          Flutter Full Complete Course in Hindi 2025
+          Android Full Complete Course in Hindi 2025
         </h1>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
